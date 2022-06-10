@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.java.Log;
 import net.lich.xiangchar.cache.GamerCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.OnMessage;
@@ -23,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint(value = "/xiangChar/{sessionId}/pingPong")
 @Component
 @Log
+@Scope("prototype")
 public class MainHandle {
     /**
      * 用来存放每个客户端对应的 MainHandle  对象
@@ -39,7 +41,7 @@ public class MainHandle {
     /**
      * 接收 id
      */
-    private String sessionId;
+    public String sessionId;
 
     /**
      * 连接建立成功调用的方法
@@ -65,12 +67,12 @@ public class MainHandle {
 
 
     @OnMessage
-    public void onMessage(JSONObject message, Session session) throws IOException {
-//        JSONObject jsonObject = JSON.parseObject(message);
+    public void onMessage(String message, Session session) throws IOException {
+        JSONObject jsonObject = JSONObject.parseObject(message);
 //        String key = jsonObject.get(ViapConstants.REDIS_MESSAGE_KEY).toString();
 //        String value = jsonObject.get(ViapConstants.REDIS_MESSAGE_VALUE).toString();
-        sendMessage(key,value);
-        log.info("onMessage# User name: " + userName + " message,message: " + message);
+//        sendMessage(key,value);
+//        log.info("onMessage# User name: " + userName + " message,message: " + message);
     }
 
     /**
