@@ -21,10 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description
  * @Date 2022/5/27
  **/
-@ServerEndpoint(value = "/xiangChar/{sessionId}/pingPong")
+@ServerEndpoint(value = "/xiangChar/{sessionId}")
 @Component
 @Log
-@Scope("prototype")
 public class MainHandle {
     /**
      * 用来存放每个客户端对应的 MainHandle  对象
@@ -49,7 +48,7 @@ public class MainHandle {
     @OnOpen
     public void onOpen(Session session, @PathParam("sessionId") String sessionId) {
         this.session = session;
-        this.sessionId = sessionId;
+//        this.sessionId = sessionId;
         if (gamerCache.containsKey(sessionId)) {
             gamerCache.remove(sessionId);
             gamerCache.put(sessionId, this);
